@@ -7,6 +7,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:106226591448:android:2c0502494c63f94f4159ad",
+        "android_client_info": {
+          "package_name": "br.com.segtaxipass"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "106226591448-o08vjoa4d4884rvr7vtq4s446ugbbt2u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.segtaxipass",
+            "certificate_hash": "8a7db89ac95c8f2cb09441be7f1ceae5741b563d"
+          }
+        },
+        {
+          "client_id": "106226591448-blm8n5ee2vkq2p9oa8mbraba3q94kmq3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmFlD_pG9naLL3gjKSXdTE3fuCNxV8xNI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106226591448-blm8n5ee2vkq2p9oa8mbraba3q94kmq3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:106226591448:android:54ffa4842235e96c4159ad",
         "android_client_info": {
           "package_name": "com.segtaxi.passageiro"

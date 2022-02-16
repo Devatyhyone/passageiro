@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, deprecated_member_use
 
 import 'dart:developer';
 
@@ -131,6 +131,22 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
                         ),
                         hintText: 'Destino'),
                   ),
+                ),
+              )),
+          Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: RaisedButton(
+                  child: Text(
+                    'Chamar Taxi',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                  padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
+                  color: AppColors.primaryBlack,
+                  onPressed: () {},
                 ),
               ))
         ])),
