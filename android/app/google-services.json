@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "106226591448",
+    "project_id": "segtaxi-cdd12",
+    "storage_bucket": "segtaxi-cdd12.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106226591448:android:54ffa4842235e96c4159ad",
+        "android_client_info": {
+          "package_name": "com.segtaxi.passageiro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "106226591448-rivg3k5fs8g229r2ho7mscale5m9pa4j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.segtaxi.passageiro",
+            "certificate_hash": "8a7db89ac95c8f2cb09441be7f1ceae5741b563d"
+          }
+        },
+        {
+          "client_id": "106226591448-blm8n5ee2vkq2p9oa8mbraba3q94kmq3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmFlD_pG9naLL3gjKSXdTE3fuCNxV8xNI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106226591448-blm8n5ee2vkq2p9oa8mbraba3q94kmq3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
