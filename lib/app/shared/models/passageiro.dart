@@ -13,8 +13,7 @@ class Passageiro {
       required this.numero,
       required this.celular,
       required this.dataNascimento,
-      required this.latitudeCorrente,
-      required this.longitudeCorrente,
+      required this.localizacaoAtual,
       required this.sexo,
       required this.cpf,
       required this.cnpj,
@@ -39,8 +38,7 @@ class Passageiro {
   late final String? numero;
   late final String? celular;
   late final Timestamp? dataNascimento;
-  late final double? latitudeCorrente;
-  late final double? longitudeCorrente;
+  late final GeoPoint? localizacaoAtual;
   late final String? sexo;
   late final String? cpf;
   late final String? cnpj;
@@ -70,12 +68,9 @@ class Passageiro {
     dataNascimento = (json['dataNascimento'] == null
         ? null
         : json['dataNascimento'] as Timestamp?);
-    latitudeCorrente = json['latitudeCorrente'] == null
-        ? 0.0
-        : json['latitudeCorrente'] as double?;
-    longitudeCorrente = json['longitudeCorrente'] == null
-        ? 0.0
-        : json['longitudeCorrente'] as double?;
+    localizacaoAtual = (json['localizacaoAtual'] == null
+        ? null
+        : json['localizacaoAtual'] as GeoPoint?);
     sexo = json['sexo'] == null ? '' : json['sexo'] as String?;
     cpf = json['cpf'] == null ? '' : json['cpf'] as String?;
     cnpj = json['cnpj'] == null ? '' : json['cnpj'] as String?;
@@ -115,8 +110,7 @@ class Passageiro {
     _data['numero'] = numero;
     _data['celular'] = celular;
     _data['dataNascimento'] = dataNascimento;
-    _data['latitudeCorrente'] = latitudeCorrente;
-    _data['longitudeCorrente'] = longitudeCorrente;
+    _data['localizacaoAtual'] = localizacaoAtual;
     _data['sexo'] = sexo;
     _data['cpf'] = cpf;
     _data['cnpj'] = cnpj;

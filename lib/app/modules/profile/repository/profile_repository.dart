@@ -1,13 +1,13 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:passageiro/app/modules/home/repository/home_interface.dart';
-import 'package:passageiro/app/shared/models/corrida.dart';
+import 'package:passageiro/app/modules/profile/repository/profile_interface.dart';
 import 'package:passageiro/app/shared/models/passageiro.dart';
-import 'package:uuid/uuid.dart';
 
-class HomeRepository implements HomeInterface {
+class ProfileRepository implements ProfileInterface {
   @override
   Future<Either<String, Passageiro?>> getUserData(String id) async {
     late Passageiro user;
@@ -30,20 +30,5 @@ class HomeRepository implements HomeInterface {
       return Left('Erro ao recuperar dados');
     }
     return Right(user);
-  }
-
-  @override
-  Future<Either<String, Unit>> chamarTaxi(Corrida corrida) async {
-    try {
-      await FirebaseFirestore.instance
-          .collection('corridas')
-          .doc(corrida.id)
-          .set(corrida.toJson());
-      print('Chegou aqui');
-
-      return const Right(unit);
-    } catch (e) {
-      return const Left('Erro ao chamar taxi');
-    }
   }
 }

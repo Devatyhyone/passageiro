@@ -2,13 +2,19 @@
 
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
 import 'package:passageiro/app/modules/home/pages/map_page.dart';
 import 'package:passageiro/app/shared/core/app_colors.dart';
+import 'package:passageiro/app/shared/models/destino.dart';
+import 'package:passageiro/app/shared/models/origem.dart';
 
 import 'home_store.dart';
 
@@ -22,6 +28,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends ModularState<HomePage, HomeStore> {
   final _advancedDrawerController = AdvancedDrawerController();
+  static final initialPosition =
+      LatLng(-21.761020932044648, -43.34880030993253);
+
+  PickResult? selectedPlace;
+  TextEditingController controllerOrigem = TextEditingController();
+  TextEditingController controllerDestino = TextEditingController();
 
   void checkuser() {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
@@ -29,8 +41,7 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
         store
             .getUserData(user.uid)
             .then((value) => value.fold((l) => print(l), (r) {
-                  log(r!.toJson().toString());
-                  store.setPassageiro(r);
+                  store.setPassageiro(r!);
                 }));
       }
     });
@@ -89,14 +100,56 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
               child: Padding(
                 padding: EdgeInsets.all(10),
                 child: Container(
-                  height: 50,
                   width: double.infinity,
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(3),
                       color: Colors.white),
-                  child: TextField(
-                    onTap: () {},
+                  child: TextFormField(
+                    controller: controllerOrigem,
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return PlacePicker(
+                          apiKey: 'AIzaSyCyLjUwQHNXkMl7GECJv4YrjX2HLYY81uQ',
+                          hintText: "Pesquisar ...",
+                          searchingText: "Por favor aguarde ...",
+                          selectText: "Selecionar",
+                          outsideOfPickAreaText: "Local fora de área",
+                          initialPosition: initialPosition,
+                          useCurrentLocation: true,
+                          selectInitialPosition: true,
+                          usePinPointingSearch: true,
+                          usePlaceDetailSearch: true,
+                          onPlacePicked: (result) async {
+                            selectedPlace = result;
+
+                            Navigator.of(context).pop();
+                            final coordinates = Coordinates(
+                                selectedPlace!.geometry!.location.lat,
+                                selectedPlace!.geometry!.location.lng);
+                            var addresses = await Geocoder.local
+                                .findAddressesFromCoordinates(coordinates);
+                            var first = addresses.first;
+                            Origem localOrigem = Origem(
+                                logradouro: first.thoroughfare!,
+                                cidade: first.subAdminArea!,
+                                bairro: first.subLocality!,
+                                cep: first.postalCode,
+                                numero: first.subThoroughfare ??
+                                    first.subThoroughfare,
+                                localizacao: GeoPoint(
+                                    selectedPlace!.geometry!.location.lat,
+                                    selectedPlace!.geometry!.location.lng));
+                            setState(() {
+                              controllerOrigem.text =
+                                  result.formattedAddress.toString();
+                              store.setorigem(localOrigem);
+                            });
+                          },
+                        );
+                      }));
+                    },
                     readOnly: true,
                     decoration: InputDecoration(
                         border: InputBorder.none,
@@ -115,14 +168,57 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
               child: Padding(
                 padding: EdgeInsets.all(10),
                 child: Container(
-                  height: 50,
                   width: double.infinity,
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(3),
                       color: Colors.white),
-                  child: TextField(
-                    onTap: () {},
+                  child: TextFormField(
+                    controller: controllerDestino,
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return PlacePicker(
+                          apiKey: 'AIzaSyCyLjUwQHNXkMl7GECJv4YrjX2HLYY81uQ',
+                          hintText: "Pesquisar ...",
+                          searchingText: "Por favor aguarde ...",
+                          selectText: "Selecionar",
+                          outsideOfPickAreaText: "Local fora de área",
+                          initialPosition: initialPosition,
+                          useCurrentLocation: true,
+                          selectInitialPosition: true,
+                          usePinPointingSearch: true,
+                          usePlaceDetailSearch: true,
+                          onPlacePicked: (result) async {
+                            selectedPlace = result;
+
+                            Navigator.of(context).pop();
+                            final coordinates = Coordinates(
+                                selectedPlace!.geometry!.location.lat,
+                                selectedPlace!.geometry!.location.lng);
+                            var addresses = await Geocoder.local
+                                .findAddressesFromCoordinates(coordinates);
+                            var first = addresses.first;
+                            Destino localDestino = Destino(
+                                logradouro: first.thoroughfare!,
+                                cidade: first.subAdminArea!,
+                                bairro: first.subLocality!,
+                                cep: first.postalCode,
+                                numero: first.subThoroughfare ??
+                                    first.subThoroughfare,
+                                localizacao: GeoPoint(
+                                  selectedPlace!.geometry!.location.lat,
+                                  selectedPlace!.geometry!.location.lng,
+                                ));
+                            setState(() {
+                              controllerDestino.text =
+                                  result.formattedAddress.toString();
+                              store.setDestino(localDestino);
+                            });
+                          },
+                        );
+                      }));
+                    },
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         icon: Padding(
@@ -146,7 +242,13 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
                   ),
                   padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
                   color: AppColors.primaryBlack,
-                  onPressed: () {},
+                  onPressed: () async {
+                    await store
+                        .chamarTaxi()
+                        .then((value) => value.fold((l) => log(l), (r) {
+                              //   Navigator.pop(context);
+                            }));
+                  },
                 ),
               ))
         ])),
@@ -182,7 +284,9 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
                 title: Text('Chamar Corrida'),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  Modular.to.pushNamed('/profile/');
+                },
                 leading: Icon(Icons.account_circle_rounded),
                 title: Text('Perfil'),
               ),

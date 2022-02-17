@@ -224,8 +224,6 @@ abstract class _CadastroStoreBase with Store {
         numero: numero,
         celular: celular,
         dataNascimento: dataNascimento,
-        latitudeCorrente: latitudeCorrente,
-        longitudeCorrente: longitudeCorrente,
         sexo: sexo,
         cpf: cpf,
         cnpj: cnpj,
@@ -240,7 +238,8 @@ abstract class _CadastroStoreBase with Store {
         vouchers: <Voucher>[],
         createdAt: Timestamp.fromDate(DateTime.now()),
         updatedAt: Timestamp.fromDate(DateTime.now()),
-        bloqueado: false);
+        bloqueado: false,
+        localizacaoAtual: GeoPoint(latitudeCorrente!, longitudeCorrente!));
 
     return registerData = _repository.registerData(passageiro).asObservable();
   }
